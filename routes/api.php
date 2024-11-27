@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\ApiResponseHelper;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,10 @@ Route::controller(AuthController::class)->group(function () {
 */
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        try {
+            return ApiResponseHelper::success('User retrieved successfully', $request->user());
+        } catch (\Exception $e) {
+            return ApiResponseHelper::error($e->getMessage());
+        }
     });
 });
