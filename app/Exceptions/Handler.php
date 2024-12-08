@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use App\Helpers\ApiResponseHelper;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
@@ -55,6 +56,15 @@ class Handler extends ExceptionHandler
                 'Unauthorized',
                 null,
                 401
+            );
+        }
+
+        // error not found
+        if ($exception instanceof ModelNotFoundException) {
+            return ApiResponseHelper::error(
+                'Not found',
+                null,
+                404
             );
         }
 
