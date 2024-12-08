@@ -26,9 +26,8 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return ApiResponseHelper::success('Registration successful', [
-                'user' => $user,
+                'user' => $user->name,
                 'token' => $token,
-                'token_type' => 'Bearer',
             ]);
         } catch (\Exception $e) {
             return ApiResponseHelper::error('An error occurred', $e->getMessage(), 500);
@@ -50,9 +49,8 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return ApiResponseHelper::success('Login successful', [
-                'user' => $user,
+                'user' => $user->name,
                 'token' => $token,
-                'token_type' => 'Bearer',
             ]);
         } catch (\Exception $e) {
             return ApiResponseHelper::error('An error occurred', $e->getMessage(), 500);
