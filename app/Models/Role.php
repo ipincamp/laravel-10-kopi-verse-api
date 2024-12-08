@@ -2,24 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Support\Str;
 
-class Product extends Model
+class Role extends SpatieRole
 {
-    use HasFactory;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'detail',
-        'price',
-    ];
+    use HasFactory, HasUuids;
 
     /**
      * Boot function from Laravel.
