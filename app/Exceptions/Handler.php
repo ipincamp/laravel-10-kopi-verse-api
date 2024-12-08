@@ -62,7 +62,7 @@ class Handler extends ExceptionHandler
         // error not found
         if ($exception instanceof ModelNotFoundException) {
             return ApiResponseHelper::error(
-                'Not found',
+                'Data not found',
                 null,
                 404
             );
