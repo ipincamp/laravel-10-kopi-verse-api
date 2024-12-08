@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ApiResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -21,7 +22,7 @@ class ProductController extends Controller
                 return ApiResponseHelper::success('No products found.');
             }
 
-            return ApiResponseHelper::success('Products fetched successfully.', Product::all());
+            return ApiResponseHelper::success('Products fetched successfully.', ProductResource::collection($products));
         } catch (\Exception $e) {
             return ApiResponseHelper::error($e->getMessage());
         }
@@ -35,7 +36,7 @@ class ProductController extends Controller
         try {
             $product = Product::create($request->validated());
 
-            return ApiResponseHelper::success('Product created successfully.', $product);
+            return ApiResponseHelper::success('Product created successfully.', new ProductResource($product));
         } catch (\Exception $e) {
             return ApiResponseHelper::error($e->getMessage());
         }
@@ -47,7 +48,10 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         try {
-            return ApiResponseHelper::error('Product not found.');
+            if (!$product) {
+                return ApiResponseHelper::error('Product not found.');
+            }
+            return ApiResponseHelper::success('Product fetched successfully.', new ProductResource($product));
         } catch (\Exception $e) {
             return ApiResponseHelper::error($e->getMessage());
         }
@@ -56,9 +60,15 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        try {
+            $product->update($request->validated());
+
+            return ApiResponseHelper::success('Product updated successfully.', new ProductResource($product));
+        } catch (\Exception $e) {
+            return ApiResponseHelper::error($e->getMessage());
+        }
     }
 
     /**
@@ -66,6 +76,15 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        try {
+            if (!$product) {
+                return ApiResponseHelper::error('Product not found.');
+            }
+            $product->delete();
+
+            return ApiResponseHelper::success('Product deleted successfully.');
+        } catch (\Exception $e) {
+            return ApiResponseHelper::error($e->getMessage());
+        }
     }
 }
