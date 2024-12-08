@@ -13,14 +13,14 @@ class ApiResponseHelper
      * @param array|object $data
      * @return JsonResponse
      */
-    public static function success(string $message, $data = []): JsonResponse
+    public static function success(string $message, $data = [], int $statusCode = 200): JsonResponse
     {
         return response()->json([
             'success' => true,
             'message' => $message,
             'data' => $data,
             'errors' => null,
-        ], 200);
+        ], $statusCode);
     }
 
     /**

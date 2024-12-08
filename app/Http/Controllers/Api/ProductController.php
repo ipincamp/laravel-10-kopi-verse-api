@@ -36,7 +36,7 @@ class ProductController extends Controller
         try {
             $product = Product::create($request->validated());
 
-            return ApiResponseHelper::success('Product created successfully.', new ProductResource($product));
+            return ApiResponseHelper::success('Product created successfully.', new ProductResource($product), 201);
         } catch (\Exception $e) {
             return ApiResponseHelper::error($e->getMessage());
         }

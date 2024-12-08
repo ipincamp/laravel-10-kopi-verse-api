@@ -28,7 +28,7 @@ class AuthController extends Controller
             return ApiResponseHelper::success('Registration successful', [
                 'user' => $user->name,
                 'token' => $token,
-            ]);
+            ], 201);
         } catch (\Exception $e) {
             return ApiResponseHelper::error('An error occurred', $e->getMessage(), 500);
         }
@@ -65,7 +65,7 @@ class AuthController extends Controller
         try {
             Auth::user()->currentAccessToken()->delete();
 
-            return ApiResponseHelper::success('Logout successful', null);
+            return ApiResponseHelper::success('Logout successful', null, 202);
         } catch (\Exception $e) {
             return ApiResponseHelper::error('An error occurred', $e->getMessage(), 500);
         }
