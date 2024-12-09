@@ -1,66 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Coffee Shop
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Coffee Shop adalah aplikasi yang dirancang untuk mempermudah pelanggan dalam melihat menu, memesan kopi, dan mengelola proses pemesanan secara efisien. Aplikasi ini dirancang untuk meningkatkan pengalaman pelanggan sekaligus mendukung operasional yang lebih terstruktur bagi barista dan kasir.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fitur Utama
+- **Katalog Menu**: Menampilkan daftar menu lengkap dengan detail seperti harga, rating, dan kategori.
+- **Pemesanan Online**: Pesan kopi dari mana saja melalui aplikasi.
+- **QR Code untuk Order**: Proses pemesanan dan pembayaran menggunakan kode QR yang unik.
+- **Manajemen Admin**: Admin dapat mengelola produk, pengguna, stok, dan laporan penjualan.
+- **Opsi Tanpa Login**: Pemesanan tetap bisa dilakukan tanpa login, dengan pembayaran di tempat.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🖥️ Teknologi yang Digunakan
+- **Frontend**: [Flutter](https://flutter.dev/) v3.24.5
+- **Backend**: [Laravel](https://laravel.com/docs/10.x/installation) v10.48.25
+- **Database**: [MySQL](https://sg-mirrors.vhost.vn/mariadb//mariadb-10.11.10/winx64-packages/mariadb-10.11.10-winx64.zip) v10.11.10-MariaDB
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🖥️ Spesifikasi Server
+- [PHP](https://flutter.dev/) v8.3.8
+- [Composer](https://laravel.com/docs/10.x/installation) v2.7.7
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📚 Cara Instalasi
+1. Clone repository:
+   ```bash
+   git clone https://github.com/ipincamp/laravel-10-coffee-shop-api.git
+   ```
+2. Masuk ke direktori proyek dan salin environment:
+   ```bash
+   cd laravel-10-coffee-shop-api
+   cp .env.example .env
+   ```
+3. Instal dependensi dan generate key:
+   ```bash
+   composer install
+   php artisan key:generate
+   ```
+4. Jalankan migrasi dan seeder:
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
+5. Jalankan server:
+   ```bash
+   php artisan serve
+   ```
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🎯 Cara Menggunakan Aplikasi
+1. **Pelanggan**
+   - Login atau daftar akun.
+   - Telusuri menu dan pilih item.
+   - Cetak QR Code untuk memproses pesanan.
+   - Lakukan pembayaran di tempat dengan memindai QR Code.
+   - Berikan rating untuk kopi setelah selesai.
 
-### Premium Partners
+2. **Kasir**
+   - Pindai QR Code pelanggan.
+   - Lakukan konfirmasi pembayaran dan proses order.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. **Admin**
+   - Kelola produk, stok, pengguna, dan laporan penjualan melalui panel admin.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📈 Roadmap
+- Penambahan metode pembayaran digital.
+- Fitur pelacakan pesanan secara real-time.
+- Sistem notifikasi untuk status pesanan.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🤝 Kontribusi
+Kontribusi sangat dihargai! Silakan buat pull request atau laporkan isu di tab [Issues](https://github.com/ipincamp/laravel-10-coffee-shop-api/issues).
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🛠️ Lisensi
+Proyek ini dilisensikan di bawah [MIT License](./LICENSE).
