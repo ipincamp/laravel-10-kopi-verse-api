@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,14 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionSeeder::class,
+            UserSeeder::class,
         ]);
-
-        // User Admin
-        $admin = User::create([
-            'name' => config('custom.admin.name'),
-            'email' => config('custom.admin.email'),
-            'password' => bcrypt(config('custom.admin.password')),
-        ]);
-        $admin->assignRole('admin');
     }
 }

@@ -24,6 +24,7 @@ class AuthController extends Controller
                 'password' => bcrypt($data['password']),
             ]);
             $token = $user->createToken('auth_token')->plainTextToken;
+            $user->assignRole('customer');
 
             return ApiResponseHelper::success('Registration successful', [
                 'user' => $user->name,
@@ -50,6 +51,7 @@ class AuthController extends Controller
 
             return ApiResponseHelper::success('Login successful', [
                 'user' => $user->name,
+                'role' => $user->getRoleNames()->first(),
                 'token' => $token,
             ]);
         } catch (\Exception $e) {
