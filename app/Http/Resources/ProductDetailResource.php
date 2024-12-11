@@ -21,9 +21,12 @@ class ProductDetailResource extends JsonResource
             'price' => $this->price,
             'category' => $this->category,
             'image' => $this->image,
-            'available' => $this->available,
+            'available' => $this->available ? 'Yes' : 'No',
             'created_at' => $this->created_at->format('d/m/Y H:i:s'),
             'updated_at' => $this->updated_at->format('d/m/Y H:i:s'),
+            /**
+             * TODO: comment and rating
+             */
         ];
     }
 }

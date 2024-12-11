@@ -69,6 +69,10 @@ class Handler extends ExceptionHandler
         }
 
         // Tangani error lainnya
-        return parent::render($request, $exception);
+        return ApiResponseHelper::error(
+            'An error occurred',
+            ['message' => $exception->getMessage()],
+            500
+        );
     }
 }

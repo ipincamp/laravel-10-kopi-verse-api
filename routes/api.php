@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\Product\ChangeAvailableProductController;
+use App\Http\Controllers\Api\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,6 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     // product
     Route::apiResource('products', ProductController::class);
+    Route::put('products/{product}/available', ChangeAvailableProductController::class)
+        ->name('products.available');
 });
