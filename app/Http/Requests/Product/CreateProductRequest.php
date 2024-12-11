@@ -26,7 +26,7 @@ class CreateProductRequest extends FormRequest
             'name' => ['required', 'string', 'min:5', 'max:100'],
             'detail' => ['required', 'string'],
             'price' => ['required', 'integer'],
-            'category' => ['required', 'string'],
+            'category' => ['required', 'string', 'in:food,drink'],
         ];
     }
 }

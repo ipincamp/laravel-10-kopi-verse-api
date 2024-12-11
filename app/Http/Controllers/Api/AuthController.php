@@ -43,7 +43,7 @@ class AuthController extends Controller
         try {
             $credentials = $request->validated();
             if (!auth()->attempt($credentials)) {
-                return response()->json(['message' => 'Unauthorized'], 401);
+                return response()->json(['message' => 'Invalid credentials'], 401);
             }
 
             $user = User::where('email', $credentials['email'])->first();

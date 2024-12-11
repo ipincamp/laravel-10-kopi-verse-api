@@ -26,7 +26,7 @@ class UpdateProductRequest extends FormRequest
             'name' => ['string', 'min:5', 'max:100'],
             'detail' => ['string'],
             'price' => ['integer'],
-            'category' => ['string'],
+            'category' => ['string', 'in:food,drink'],
         ];
     }
 }
