@@ -17,12 +17,21 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $products = Product::all();
-            if ($products->isEmpty()) {
-                return ApiResponseHelper::success('No products found.');
-            }
+            $productDrinks = Product::where('category', 'drink')->get();
+            $productFoods = Product::where('category', 'food')->get();
 
-            return ApiResponseHelper::success('Products fetched successfully.', ProductResource::collection($products));
+            return ApiResponseHelper::success(
+                'Products fetched successfully.',
+                [
+                    'drinks' => $productDrinks->map(function ($product) {
+                        return new ProductResource($product);
+                    }),
+                    'foods' => $productFoods->map(function ($product) {
+                        return new ProductResource($product);
+                    }),
+                    'total_products' => Product::count(),
+                ],
+            );
         } catch (\Exception $e) {
             return ApiResponseHelper::error($e->getMessage());
         }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('detail');
             $table->integer('price');
             $table->enum('category', ['food', 'drink'])->default('drink');
+            $table->string('image')->default('product.png');
+            $table->boolean('available')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
