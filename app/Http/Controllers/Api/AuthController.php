@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     /**
-     * Register a new user.
+     * Register a new customer.
      */
     public function register(RegisterRequest $request)
     {

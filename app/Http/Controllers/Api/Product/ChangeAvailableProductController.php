@@ -10,8 +10,7 @@ use App\Models\Product;
 class ChangeAvailableProductController extends Controller
 {
     /**
-     * Handle the incoming request.
-     * !Tested
+     * Update available status of the product.
      */
     public function __invoke(Product $product)
     {

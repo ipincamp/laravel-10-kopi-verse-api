@@ -13,8 +13,7 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * !Tested
+     * Get all products.
      */
     public function index()
     {
@@ -45,8 +44,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * !Tested
+     * Create a new product.
      */
     public function store(CreateProductRequest $request)
     {
@@ -66,8 +64,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     * !Tested
+     * Get the specified product.
      */
     public function show(Product $product)
     {
@@ -82,8 +79,7 @@ class ProductController extends Controller
         }
     }
     /**
-     * Update the specified resource in storage.
-     * !Tested
+     * Update the specified product.
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
@@ -103,8 +99,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * !Tested
+     * Temporarily remove the specified product.
      */
     public function destroy(Product $product)
     {
