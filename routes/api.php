@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class);
     Route::put('products/{product}/available', ChangeAvailableProductController::class)
         ->name('products.available');
+
     // cart
     Route::apiResource('cart', CartController::class)->only(['index', 'store']);
+    Route::put('cart', [CartController::class, 'update'])->name('cart.update');
 });
