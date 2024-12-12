@@ -40,10 +40,18 @@ class CartController extends Controller
             // TODO: Authorize the user to add a product to the cart.
 
             $cart = Auth::user()->cart;
-            $cart->items()->create([
-                'product_id' => $request->product_id,
-                'quantity' => $request->quantity,
-            ]);
+            $cartItem = $cart->items()->where('product_id', $request->product_id)->first();
+
+            if ($cartItem) {
+                $cartItem->update([
+                    'quantity' => $cartItem->quantity + (int)$request->quantity,
+                ]);
+            } else {
+                $cart->items()->create([
+                    'product_id' => $request->product_id,
+                    'quantity' => $request->quantity,
+                ]);
+            }
 
             return ApiResponse::send(
                 201,
