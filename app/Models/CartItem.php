@@ -55,4 +55,14 @@ class CartItem extends Model
     {
         return $this->belongsTo(Cart::class, 'cart_id', 'id');
     }
+
+    /**
+     * Get the product that owns the CartItem
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }

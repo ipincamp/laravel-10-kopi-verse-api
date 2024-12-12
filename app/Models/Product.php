@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -58,5 +59,15 @@ class Product extends Model
     public function getIncrementing()
     {
         return false;
+    }
+
+    /**
+     * Get all of the cartItems for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class, 'product_id', 'id');
     }
 }
