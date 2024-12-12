@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Product;
 
-use App\Helpers\ApiResponseHelper;
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductDetailResource;
 use App\Models\Product;
@@ -19,12 +19,13 @@ class ChangeAvailableProductController extends Controller
             $product->available = !$product->available;
             $product->save();
 
-            return ApiResponseHelper::success(
+            return ApiResponse::send(
+                200,
                 'Product availability changed successfully',
                 new ProductDetailResource($product),
             );
         } catch (\Exception $e) {
-            return ApiResponseHelper::error($e->getMessage());
+            abort(500, $e->getMessage());
         }
     }
 }

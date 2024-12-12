@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Product;
 
-use App\Helpers\ApiResponseHelper;
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
@@ -22,7 +22,12 @@ class ProductController extends Controller
             $productDrinks = Product::where('category', 'drink')->get();
             $productFoods = Product::where('category', 'food')->get();
 
-            return ApiResponseHelper::success(
+            if ($productDrinks->isEmpty() && $productFoods->isEmpty()) {
+                abort(404, 'No products found.');
+            }
+
+            return ApiResponse::send(
+                200,
                 'Products fetched successfully.',
                 [
                     'drinks' => $productDrinks->map(function ($product) {
@@ -35,7 +40,7 @@ class ProductController extends Controller
                 ],
             );
         } catch (\Exception $e) {
-            return ApiResponseHelper::error($e->getMessage());
+            abort(500, $e->getMessage());
         }
     }
 
@@ -50,13 +55,13 @@ class ProductController extends Controller
 
             $product = Product::create($request->validated());
 
-            return ApiResponseHelper::success(
+            return ApiResponse::send(
+                201,
                 'Product created successfully.',
                 new ProductResource($product),
-                201,
             );
         } catch (\Exception $e) {
-            return ApiResponseHelper::error($e->getMessage());
+            abort(500, $e->getMessage());
         }
     }
 
@@ -67,12 +72,13 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         try {
-            return ApiResponseHelper::success(
+            return ApiResponse::send(
+                200,
                 'Product fetched successfully.',
                 new ProductDetailResource($product),
             );
         } catch (\Exception $e) {
-            return ApiResponseHelper::error($e->getMessage());
+            abort(500, $e->getMessage());
         }
     }
     /**
@@ -86,12 +92,13 @@ class ProductController extends Controller
 
             $product->update($request->validated());
 
-            return ApiResponseHelper::success(
+            return ApiResponse::send(
+                200,
                 'Product updated successfully.',
                 new ProductDetailResource($product),
             );
         } catch (\Exception $e) {
-            return ApiResponseHelper::error($e->getMessage());
+            abort(500, $e->getMessage());
         }
     }
 
@@ -106,9 +113,9 @@ class ProductController extends Controller
 
             $product->delete();
 
-            return ApiResponseHelper::success('Product deleted successfully.');
+            return ApiResponse::send(200, 'Product deleted successfully.');
         } catch (\Exception $e) {
-            return ApiResponseHelper::error($e->getMessage());
+            abort(500, $e->getMessage());
         }
     }
 }

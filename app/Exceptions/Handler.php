@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-use App\Helpers\ApiResponseHelper;
+use App\Helpers\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
@@ -43,36 +43,39 @@ class Handler extends ExceptionHandler
     {
         // Tangani error validasi
         if ($exception instanceof ValidationException) {
-            return ApiResponseHelper::error(
-                'Validation error.',
-                $exception->errors(),
-                422
+            return ApiResponse::send(
+                422,
+                'Validation error',
+                [],
+                $exception->validator->errors()->first(),
             );
         }
 
         // error unauthorized
         if ($exception instanceof AuthenticationException) {
-            return ApiResponseHelper::error(
+            return ApiResponse::send(
+                401,
                 'Unauthorized',
-                null,
-                401
+                [],
+                $exception->getMessage(),
             );
         }
 
         // error not found
         if ($exception instanceof ModelNotFoundException) {
-            return ApiResponseHelper::error(
-                'Data not found',
-                null,
-                404
+            return ApiResponse::send(
+                404,
+                'Resource not found',
+                [],
+                $exception->getMessage(),
             );
         }
 
-        // Tangani error lainnya
-        return ApiResponseHelper::error(
+        return ApiResponse::send(
+            500,
             'An error occurred',
-            ['message' => $exception->getMessage()],
-            500
+            [],
+            $exception->getMessage(),
         );
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\ApiResponseHelper;
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -26,12 +26,16 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             $user->assignRole('customer');
 
-            return ApiResponseHelper::success('Registration successful', [
-                'user' => $user->name,
-                'token' => $token,
-            ], 201);
+            return ApiResponse::send(
+                201,
+                'Registration successful',
+                [
+                    'user' => $user->name,
+                    'token' => $token,
+                ],
+            );
         } catch (\Exception $e) {
-            return ApiResponseHelper::error('An error occurred', $e->getMessage(), 500);
+            abort(500, $e->getMessage());
         }
     }
 
@@ -43,19 +47,23 @@ class AuthController extends Controller
         try {
             $credentials = $request->validated();
             if (!auth()->attempt($credentials)) {
-                return response()->json(['message' => 'Invalid credentials'], 401);
+                abort(401, 'Invalid credentials');
             }
 
             $user = User::where('email', $credentials['email'])->first();
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            return ApiResponseHelper::success('Login successful', [
-                'user' => $user->name,
-                'role' => $user->getRoleNames()->first(),
-                'token' => $token,
-            ]);
+            return ApiResponse::send(
+                200,
+                'Login successful',
+                [
+                    'user' => $user->name,
+                    'role' => $user->getRoleNames()->first(),
+                    'token' => $token,
+                ],
+            );
         } catch (\Exception $e) {
-            return ApiResponseHelper::error('An error occurred', $e->getMessage(), 500);
+            abort(500, $e->getMessage());
         }
     }
 
@@ -65,11 +73,15 @@ class AuthController extends Controller
     public function logout()
     {
         try {
+            if (!Auth::check()) {
+                abort(401, 'Unauthenticated');
+            }
+
             Auth::user()->currentAccessToken()->delete();
 
-            return ApiResponseHelper::success('Logout successful', null, 202);
+            return ApiResponse::send(202, 'Logout successful');
         } catch (\Exception $e) {
-            return ApiResponseHelper::error('An error occurred', $e->getMessage(), 500);
+            abort(500, $e->getMessage());
         }
     }
 }
