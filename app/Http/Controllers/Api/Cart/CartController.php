@@ -16,7 +16,7 @@ class CartController extends Controller
     public function index()
     {
         try {
-            // TODO: Authorize the user to view own cart.
+            $this->authorize('view', Auth::user()->cart);
 
             $cartItems = Auth::user()->cart->load('items.product');
 
@@ -37,7 +37,7 @@ class CartController extends Controller
     public function store(AddItemToCartRequest $request)
     {
         try {
-            // TODO: Authorize the user to add a product to the cart.
+            $this->authorize('create', Auth::user()->cart);
 
             $cart = Auth::user()->cart;
             $cartItem = $cart->items()->where('product_id', $request->product_id)->first();
@@ -68,7 +68,7 @@ class CartController extends Controller
     public function update(UpdateCartRequest $request)
     {
         try {
-            // TODO: Authorize the user to update the cart.
+            $this->authorize('update', Auth::user()->cart);
 
             $cart = Auth::user()->cart;
 
