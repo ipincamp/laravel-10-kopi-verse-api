@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,8 @@ class AuthController extends Controller
             ]);
             $token = $user->createToken('auth_token')->plainTextToken;
             $user->assignRole('customer');
+
+            Cart::create(['user_id' => $user->id]);
 
             return ApiResponse::send(
                 201,

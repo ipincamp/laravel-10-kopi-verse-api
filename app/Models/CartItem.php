@@ -13,6 +13,17 @@ class CartItem extends Model
     use HasFactory, HasUuids;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'cart_id',
+        'product_id',
+        'quantity',
+    ];
+
+    /**
      * Boot function from Laravel.
      */
     protected static function boot()
