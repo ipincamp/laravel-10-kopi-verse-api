@@ -5,26 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-class Product extends Model
+class OrderItem extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
-        'name',
-        'detail',
-        'price',
-        'category',
-        'image',
-        'available',
+        'order_id',
+        'product_id',
+        'notes',
+        'quantity',
+        'sub_total',
     ];
 
     /**
@@ -62,22 +60,22 @@ class Product extends Model
     }
 
     /**
-     * Get all of the cartItems for the Product
+     * Get the order that owns the OrderItem
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function cartItems(): HasMany
+    public function order(): BelongsTo
     {
-        return $this->hasMany(CartItem::class, 'product_id', 'id');
+        return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 
     /**
-     * Get all of the orderItems for the Product
+     * Get the product that owns the OrderItem
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function orderItems(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->hasMany(OrderItem::class, 'product_id', 'id');
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

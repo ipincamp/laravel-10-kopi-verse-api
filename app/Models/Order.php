@@ -5,26 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Product extends Model
+class Order extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
-        'name',
-        'detail',
-        'price',
-        'category',
-        'image',
-        'available',
+        'user_id',
+        'status',
+        'total',
     ];
 
     /**
@@ -61,23 +56,4 @@ class Product extends Model
         return false;
     }
 
-    /**
-     * Get all of the cartItems for the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function cartItems(): HasMany
-    {
-        return $this->hasMany(CartItem::class, 'product_id', 'id');
-    }
-
-    /**
-     * Get all of the orderItems for the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function orderItems(): HasMany
-    {
-        return $this->hasMany(OrderItem::class, 'product_id', 'id');
-    }
 }
