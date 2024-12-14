@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Cart\CartController;
+use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Product\ChangeAvailableProductController;
 use App\Http\Controllers\Api\Product\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | Auth Routes
 |--------------------------------------------------------------------------
 */
+
 Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
@@ -31,4 +33,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // cart
     Route::apiResource('cart', CartController::class)->only(['index', 'store']);
     Route::put('cart', [CartController::class, 'update'])->name('cart.update');
+
+    // order
+    Route::apiResource('orders', OrderController::class)->only(['index', 'store']);
+    Route::put('orders/{order:barcode}/status', [OrderController::class, 'update'])
+        ->name('orders.status');
+    Route::get('orders/{order:barcode}', [OrderController::class, 'show'])
+        ->name('orders.show');
 });
