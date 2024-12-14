@@ -23,7 +23,7 @@ class ApiResponse
     ): JsonResponse {
         return response()->json([
             'success' => $statusCode < 400,
-            'message' => $statusCode < 400 ? $message : 'An error occurred',
+            'message' => $message ?? ($statusCode < 400 ? $message : 'An error occurred'),
             'data' => $statusCode < 400 ? $data : [],
             'errors' => $statusCode >= 400 ? $errors : null,
         ], $statusCode);
