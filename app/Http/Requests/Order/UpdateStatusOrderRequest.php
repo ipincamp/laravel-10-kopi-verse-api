@@ -3,16 +3,15 @@
 namespace App\Http\Requests\Order;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class ValidateOrderCodeRequest extends FormRequest
+class UpdateStatusOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -23,7 +22,8 @@ class ValidateOrderCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_code' => ['required', 'string', 'exists:orders,code'],
+            'notes' => ['nullable', 'string'],
+            'status' => ['required', 'string', 'in:prep,ready,done,cancel'],
         ];
     }
 }
