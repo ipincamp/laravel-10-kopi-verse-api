@@ -18,6 +18,8 @@ class OrderController extends Controller
     public function index()
     {
         try {
+            $this->authorize('viewAny', Order::class);
+
             $user = Auth::user();
             $orders = Order::where('user_id', $user->id)->get();
 
@@ -37,6 +39,8 @@ class OrderController extends Controller
     public function store()
     {
         try {
+            $this->authorize('create', Order::class);
+
             $user = Auth::user();
             $cartItems = Cart::with('items')->where('user_id', $user->id)->get()->pluck('items')->flatten();
 
@@ -46,6 +50,7 @@ class OrderController extends Controller
 
             $order = Order::create([
                 'user_id' => $user->id,
+                'total' => 0,
             ]);
             $totalAmount = 0;
 
@@ -83,6 +88,8 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         try {
+            $this->authorize('view', $order);
+
             return ApiResponse::send(200, 'Order retrieved successfully.', $order);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
@@ -96,6 +103,8 @@ class OrderController extends Controller
     public function update(UpdateStatusOrderRequest $request, Order $order)
     {
         try {
+            $this->authorize('update', Order::class);
+
             if ($order->status === 'wait') {
                 $order->update(['notes' => $request->notes]);
             }
