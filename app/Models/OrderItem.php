@@ -20,7 +20,6 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'product_id',
-        'notes',
         'quantity',
         'sub_total',
     ];

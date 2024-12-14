@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -20,6 +22,8 @@ class Order extends Model
         'user_id',
         'status',
         'total',
+        'notes',
+        'barcode',
     ];
 
     /**
@@ -56,4 +60,23 @@ class Order extends Model
         return false;
     }
 
+    /**
+     * Get the user that owns the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the items for the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class, 'order_id', 'id');
+    }
 }
