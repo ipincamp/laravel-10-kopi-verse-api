@@ -7,7 +7,7 @@ Coffee Shop adalah aplikasi yang dirancang untuk mempermudah pelanggan dalam mel
 ## 🚀 Fitur Utama
 - **Katalog Menu**: Menampilkan daftar menu lengkap dengan detail seperti harga, rating, dan kategori.
 - **Pemesanan Online**: Pesan kopi dari mana saja melalui aplikasi.
-- **QR Code untuk Order**: Proses pemesanan dan pembayaran menggunakan kode QR yang unik.
+- **Barcode untuk Order**: Proses pemesanan dan pembayaran menggunakan barcode yang unik.
 - **Manajemen Admin**: Admin dapat mengelola produk, pengguna, stok, dan laporan penjualan.
 - **Opsi Tanpa Login**: Pemesanan tetap bisa dilakukan tanpa login, dengan pembayaran di tempat.
 
@@ -36,17 +36,39 @@ Coffee Shop adalah aplikasi yang dirancang untuk mempermudah pelanggan dalam mel
    cd laravel-10-coffee-shop-api
    cp .env.example .env
    ```
-3. Instal dependensi dan generate key:
+3. Sesuaikan isi dari konfigurasi variabel:
+   ```bash
+   DB_CONNECTION=mysql
+   DB_HOST=CHANGE_THIS
+   DB_PORT=CHANGE_THIS
+   DB_DATABASE=db_csapi
+   DB_USERNAME=CHANGE_THIS
+   DB_PASSWORD=CHANGE_THIS
+   ...
+   # Credentials
+   ADMIN_NAME="CHANGE_THIS"
+   ADMIN_EMAIL="CHANGE_THIS"
+   ADMIN_PASSWORD="CHANGE_THIS"
+
+   CASHIER_NAME="CHANGE_THIS"
+   CASHIER_EMAIL="CHANGE_THIS"
+   CASHIER_PASSWORD="CHANGE_THIS"
+
+   CUSTOMER_NAME="CHANGE_THIS"
+   CUSTOMER_EMAIL="CHANGE_THIS"
+   CUSTOMER_PASSWORD="CHANGE_THIS"
+   ```
+4. Instal dependensi dan generate key:
    ```bash
    composer install
    php artisan key:generate
    ```
-4. Jalankan migrasi dan seeder:
+5. Jalankan migrasi dan seeder:
    ```bash
    php artisan migrate
    php artisan db:seed
    ```
-5. Jalankan server:
+6. Jalankan server:
    ```bash
    php artisan serve
    ```
@@ -57,12 +79,12 @@ Coffee Shop adalah aplikasi yang dirancang untuk mempermudah pelanggan dalam mel
 1. **Pelanggan**
    - Login atau daftar akun.
    - Telusuri menu dan pilih item.
-   - Cetak QR Code untuk memproses pesanan.
-   - Lakukan pembayaran di tempat dengan memindai QR Code.
+   - Cetak Barcode untuk memproses pesanan.
+   - Lakukan pembayaran di tempat dengan memindai Barcode.
    - Berikan rating untuk kopi setelah selesai.
 
 2. **Kasir**
-   - Pindai QR Code pelanggan.
+   - Pindai Barcode pelanggan.
    - Lakukan konfirmasi pembayaran dan proses order.
 
 3. **Admin**
