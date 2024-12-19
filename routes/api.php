@@ -7,6 +7,15 @@ use App\Http\Controllers\Api\Product\ChangeAvailableProductController;
 use App\Http\Controllers\Api\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'Welcome to the API',
+        'data' => [],
+        'errors' => null,
+    ], 200);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Auth Routes

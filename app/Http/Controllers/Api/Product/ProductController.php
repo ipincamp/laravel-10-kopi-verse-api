@@ -18,25 +18,18 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $productDrinks = Product::where('category', 'drink')->get();
-            $productFoods = Product::where('category', 'food')->get();
+            $products = Product::all();
 
-            if ($productDrinks->isEmpty() && $productFoods->isEmpty()) {
+            if ($products->isEmpty()) {
                 abort(404, 'No products found.');
             }
 
             return ApiResponse::send(
                 200,
                 'Products fetched successfully.',
-                [
-                    'drinks' => $productDrinks->map(function ($product) {
-                        return new ProductResource($product);
-                    }),
-                    'foods' => $productFoods->map(function ($product) {
-                        return new ProductResource($product);
-                    }),
-                    'total_products' => Product::count(),
-                ],
+                $products->map(function ($product) {
+                    return new ProductResource($product);
+                }),
             );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
