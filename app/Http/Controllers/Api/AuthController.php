@@ -34,6 +34,7 @@ class AuthController extends Controller
                 'Registration successful',
                 [
                     'user' => $user->name,
+                    'role' => $user->getRoleNames()->first(),
                     'token' => $token,
                 ],
             );

@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\AddItemToCartRequest;
 use App\Http\Requests\Cart\UpdateCartRequest;
+use App\Http\Resources\CartResource;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -20,11 +21,10 @@ class CartController extends Controller
 
             $cartItems = Auth::user()->cart->load('items.product');
 
-            // TODO: Implement a transformer to format the response.
             return ApiResponse::send(
                 200,
                 'Cart items fetched successfully.',
-                $cartItems
+                new CartResource($cartItems),
             );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
