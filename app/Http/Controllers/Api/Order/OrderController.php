@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Order;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\UpdateStatusOrderRequest;
+use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -21,13 +22,17 @@ class OrderController extends Controller
             $this->authorize('viewAny', Order::class);
 
             $user = Auth::user();
-            $orders = Order::where('user_id', $user->id)->get();
+            $orders = Order::where('user_id', $user->id)->with('items.product')->get();
 
             if ($orders->isEmpty()) {
                 return ApiResponse::send(404, 'No orders found.');
             }
 
-            return ApiResponse::send(200, 'Orders retrieved successfully.', $orders);
+            return ApiResponse::send(
+                200,
+                'Orders retrieved successfully.',
+                OrderResource::collection($orders),
+            );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
@@ -50,6 +55,7 @@ class OrderController extends Controller
 
             $order = Order::create([
                 'user_id' => $user->id,
+                'status' => 'wait',
                 'total' => 0,
             ]);
             $totalAmount = 0;
@@ -75,7 +81,14 @@ class OrderController extends Controller
                 'barcode' => $barcode,
             ]);
 
-            return ApiResponse::send(201, 'Order created successfully.', $order);
+            return ApiResponse::send(
+                201,
+                'Order created successfully.',
+                [
+                    'barcode' => $order->barcode,
+                    'total' => $order->total,
+                ],
+            );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
@@ -90,7 +103,11 @@ class OrderController extends Controller
         try {
             $this->authorize('view', $order);
 
-            return ApiResponse::send(200, 'Order retrieved successfully.', $order);
+            return ApiResponse::send(
+                200,
+                'Order retrieved successfully.',
+                new OrderResource($order),
+            );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
@@ -123,7 +140,11 @@ class OrderController extends Controller
 
             $order->update(['status' => $request->status]);
 
-            return ApiResponse::send(200, 'Order status updated successfully.', $order);
+            return ApiResponse::send(
+                200,
+                'Order status updated successfully.',
+                new OrderResource($order),
+            );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
