@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreignUuid('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('quantity');
-            $table->decimal('sub_total', 10, 2);
+            $table->integer('sub_total');
             $table->timestamps();
         });
     }

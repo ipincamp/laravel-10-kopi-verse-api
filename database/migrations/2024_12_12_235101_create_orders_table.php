@@ -23,7 +23,7 @@ return new class extends Migration
              * cancel : Order is canceled.
              */
             $table->enum('status', ['wait', 'prep', 'ready', 'done', 'cancel'])->default('wait');
-            $table->decimal('total', 10, 2)->default(0);
+            $table->integer('total')->default(0);
             $table->text('notes')->nullable();
             $table->timestamps();
         });
