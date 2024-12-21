@@ -24,7 +24,7 @@ class CartController extends Controller
             return ApiResponse::send(
                 200,
                 'Cart items fetched successfully.',
-                new CartResource($cartItems),
+                CartResource::collection($cartItems->items),
             );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
