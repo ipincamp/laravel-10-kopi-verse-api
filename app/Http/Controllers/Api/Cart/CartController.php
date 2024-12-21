@@ -71,17 +71,16 @@ class CartController extends Controller
             $this->authorize('update', Auth::user()->cart);
 
             $cart = Auth::user()->cart;
+            $cartItem = $cart->items()->find($request->item_id);
 
-            foreach ($request->items as $item) {
-                $cartItem = $cart->items()->where('product_id', $item['product_id'])->first();
-                $item['quantity'] == 0 ? $cartItem->delete() : $cartItem->update([
-                    'quantity' => $item['quantity'],
-                ]);
+            if ($cartItem) {
+                $request->new_quantity == 0 ? $cartItem->delete() : $cartItem->update(['quantity' => $request->new_quantity]);
             }
 
             return ApiResponse::send(
                 200,
                 'Cart updated successfully.',
+                CartResource::collection($cart->load('items.product')->items)
             );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
