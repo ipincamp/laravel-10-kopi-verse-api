@@ -15,6 +15,7 @@ class OrderPolicy
         if ($user->hasRole('customer') || $user->hasRole('cashier')) {
             return true;
         }
+        return false;
     }
 
     /**
