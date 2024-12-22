@@ -27,7 +27,7 @@ class OrderController extends Controller
             if ($user->getRoleNames()->first() === 'cashier') {
                 $orders = Order::with('items.product')->get();
             } else {
-                $orders = Order::where('user_id', $user->id)->with('items.product')->get();
+                $orders = Order::with('items.product')->where('user_id', $user->id)->get();
             }
 
             if ($orders->isEmpty()) {

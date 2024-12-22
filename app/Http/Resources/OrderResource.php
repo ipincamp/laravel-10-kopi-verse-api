@@ -16,6 +16,7 @@ class OrderResource extends JsonResource
     {
         return [
             'barcode' => $this->barcode,
+            'customer' => $this->user->name,
             'date' => $this->created_at->format('d/m/Y H:i'),
             'total' => $this->items->sum('sub_total'),
             'status' => $this->status,
