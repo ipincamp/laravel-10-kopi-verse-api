@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\ProfileResource;
 use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,28 @@ class AuthController extends Controller
                     'role' => $user->getRoleNames()->first(),
                     'token' => $token,
                 ],
+            );
+        } catch (\Exception $e) {
+            abort(500, $e->getMessage());
+        }
+    }
+
+    /**
+     * Get the authenticated user.
+     */
+    public function profile()
+    {
+        try {
+            if (!Auth::check()) {
+                abort(401, 'Unauthenticated');
+            }
+
+            $user = Auth::user();
+
+            return ApiResponse::send(
+                200,
+                'User profile',
+                ProfileResource::make($user),
             );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
