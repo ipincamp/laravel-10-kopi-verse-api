@@ -22,17 +22,18 @@ class OrderController extends Controller
             $this->authorize('viewAny', Order::class);
 
             $user = Auth::user();
-            $orders = [];
 
-            if ($user->getRoleNames()->first() === 'cashier') {
-                $orders = Order::with('items.product')->get();
-            } else {
-                $orders = Order::with('items.product')->where('user_id', $user->id)->get();
+            if ($user->hasRole('cashier')) {
+                $orders = Order::where('status', '!=', 'wait')->with('items.product')->get();
+
+                return ApiResponse::send(
+                    200,
+                    'Orders retrieved successfully.',
+                    OrderResource::collection($orders),
+                );
             }
 
-            if ($orders->isEmpty()) {
-                return ApiResponse::send(404, 'No orders found.');
-            }
+            $orders = Order::where('user_id', $user->id)->with('items.product')->get();
 
             return ApiResponse::send(
                 200,

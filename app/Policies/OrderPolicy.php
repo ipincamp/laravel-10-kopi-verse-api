@@ -8,14 +8,11 @@ use App\Models\User;
 class OrderPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view own/all orders.
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole('customer') || $user->hasRole('cashier')) {
-            return true;
-        }
-        return false;
+        return $user->hasRole('cashier') || $user->hasRole('customer');
     }
 
     /**
