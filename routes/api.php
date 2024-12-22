@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Cart\CartController;
+use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Product\ChangeAvailableProductController;
 use App\Http\Controllers\Api\Product\ProductController;
@@ -50,4 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->name('orders.status');
     Route::get('orders/{order:barcode}', [OrderController::class, 'show'])
         ->name('orders.show');
+
+    // file
+    Route::apiResource('files', FileController::class)->only(['store', 'update', 'destroy']);
 });
