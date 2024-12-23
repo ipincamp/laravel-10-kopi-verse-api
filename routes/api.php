@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Product\ChangeAvailableProductController;
 use App\Http\Controllers\Api\Product\ProductController;
+use App\Http\Controllers\Api\User\CashierController;
+use App\Http\Controllers\Api\User\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -54,4 +56,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // file
     Route::apiResource('files', FileController::class)->only(['store', 'update', 'destroy']);
+
+    // user
+    Route::apiResource('cashiers', CashierController::class)->except(['destroy']);
+    Route::apiResource('customers', CustomerController::class)->only(['index', 'show']);
 });
