@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Product\ChangeAvailableProductController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\User\CashierController;
 use App\Http\Controllers\Api\User\CustomerController;
+use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -58,6 +59,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('files', FileController::class)->only(['store', 'update', 'destroy']);
 
     // user
-    Route::apiResource('cashiers', CashierController::class)->except(['destroy']);
-    Route::apiResource('customers', CustomerController::class)->only(['index', 'show']);
+    Route::apiResource('users', UserController::class)->except(['destroy']);
 });
