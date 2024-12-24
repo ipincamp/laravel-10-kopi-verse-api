@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\File\UpdateFileRequest;
 use App\Http\Requests\File\UploadFileRequest;
 use App\Models\File;
+use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
@@ -18,13 +19,22 @@ class FileController extends Controller
     {
         try {
             $path = $request->file('file')->store('public');
-            $pathUrl = config('app.url') . '/assets/' . str_replace('public/', '', $path);
+            $newPath = str_replace('public/', '', $path);
+            $pathUrl = config('app.url') . '/assets/' . $newPath;
 
             $file = File::create([
-                'name' => $request->file('file')->getClientOriginalName(),
-                'path' => str_replace('public/', '', $path),
+                'name' => $request['name'],
+                'path' => $newPath,
                 'type' => $request->file('file')->getClientMimeType(),
             ]);
+
+            $product = Product::where('id', $request['name'])->first();
+            if ($product) {
+                $product->update([
+                    'image' => $newPath,
+                ]);
+                $product->save();
+            }
 
             return ApiResponse::send(201, 'File uploaded successfully', [$file, $pathUrl]);
         } catch (\Exception $e) {
@@ -38,10 +48,6 @@ class FileController extends Controller
     public function update(UpdateFileRequest $request, File $file)
     {
         try {
-            $request->validate([
-                'file' => 'required|file|mimes:jpg,jpeg,png|max:2048',
-            ]);
-
             if (file_exists(public_path('/assets/' . $file->path))) {
                 Storage::disk('public')->delete($file->path);
             }
@@ -50,7 +56,7 @@ class FileController extends Controller
             $pathUrl = config('app.url') . '/assets/' . str_replace('public/', '', $path);
 
             $file->update([
-                'name' => $request->file('file')->getClientOriginalName(),
+                'name' => $request['name'],
                 'path' => str_replace('public/', '', $path),
                 'type' => $request->file('file')->getClientMimeType(),
             ]);
