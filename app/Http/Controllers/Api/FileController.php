@@ -49,7 +49,9 @@ class FileController extends Controller
     {
         try {
             if (file_exists(public_path('/assets/' . $file->path))) {
-                Storage::disk('public')->delete($file->path);
+                if ($file->name != 'profile.png' || $file->name != 'product.png') {
+                    Storage::disk('public')->delete($file->path);
+                }
             }
 
             $path = $request->file('file')->store('public');

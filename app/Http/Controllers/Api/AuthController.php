@@ -87,7 +87,7 @@ class AuthController extends Controller
             return ApiResponse::send(
                 200,
                 'User profile',
-                ProfileResource::make($user),
+                ProfileResource::collection(collect([$user])),
             );
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
